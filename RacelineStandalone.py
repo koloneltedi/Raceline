@@ -112,7 +112,7 @@ def length_mutation(creature,length,width,strategy):
 	if strategy == 0:
 		startvalue = 0.03
 	elif strategy == 1:
-		startvalue = 0.01
+		startvalue = 0.007 #Decrease chance of random bad mutations killing a creature with good mutations
 	for i in range(len(creature)): #Last update
 		if random.random() < length**(-1)*startvalue:#^9     4->7 8->9 16->11 32->13
 			mutation_direction=random.randint(1,2) #1 is inward 2 is outward 
