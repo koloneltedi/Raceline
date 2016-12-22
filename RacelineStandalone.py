@@ -110,17 +110,17 @@ def purge(generation):
 
 def length_mutation(creature,length,width,strategy):
 	if strategy == 0:
-		startvalue = 0.03
+		basevalue = 0.025
 	elif strategy == 1:
-		startvalue = 0.007 #Decrease chance of random bad mutations killing a creature with good mutations
+		basevalue = 0.006 #Random bad mutations won't kill a creature with good mutations as well
 	for i in range(len(creature)): #Last update
-		if random.random() < length**(-1)*startvalue:#^9     4->7 8->9 16->11 32->13
+		if random.random() < length**(-1)*basevalue:#^9     4->7 8->9 16->11 32->13
 			mutation_direction=random.randint(1,2) #1 is inward 2 is outward 
-			mutation_inward=100
-			mutation_outward=100
+			mutation_inward=random.random()
+			mutation_outward=random.random()
 			for itr in range(length):
-				mutation_inward=min(mutation_inward,(creature[(i+itr)%len(x_middle)]+width[i]/2)*random.random())
-				mutation_outward=min(mutation_outward,(width[i]/2-creature[(i+itr)%len(x_middle)])*random.random())
+				mutation_inward=min(mutation_inward,(creature[(i+itr)%len(x_middle)]+width[i]/2)*random.random()**2) #test the **2
+				mutation_outward=min(mutation_outward,(width[i]/2-creature[(i+itr)%len(x_middle)])*random.random()**2) #test the **2
 			for itr in range(length):
 				if mutation_direction==1:
 					creature[(i+itr)%len(x_middle)]=creature[(i+itr)%len(x_middle)]-mutation_inward
@@ -197,8 +197,9 @@ def reproduce(generation,width,strategy):
 		new_generation[x]=length_mutation(new_generation[x],16,width,strategy)
 		new_generation[x]=length_mutation(new_generation[x],32,width,strategy)
 		new_generation[x]=length_mutation(new_generation[x],64,width,strategy)
+		new_generation[x]=length_mutation(new_generation[x],128,width,strategy)
 		if strategy == 0:
-			new_generation[x]=length_mutation(new_generation[x],128,width,strategy)
+			new_generation[x]=length_mutation(new_generation[x],200,width,strategy)
 
 	return new_generation
 """
